@@ -43,6 +43,7 @@ var __asyncValues = (this && this.__asyncValues) || function (o) {
 };
 //Say welcome to the game
 process.stdout.write('Welcome to the number guessing game by Shayla Hinkley\n');
+//Function that starts the game
 function startHere(val) {
     var e_1, _a;
     return __awaiter(this, void 0, void 0, function () {
@@ -70,32 +71,50 @@ function startHere(val) {
                     //if user types quit, exit program
                     if (userInput.trim() === "quit") {
                         inout.close();
+                        //if the user asks for help, tell them rules of game. Then restart the game
+                    }
+                    else if (userInput.trim() == 'help') {
+                        console.debug("\nThis game randomly generates a secret number 1-100. You must enter your guess when asked.");
+                        console.debug("If the guessed number is too high or too low, then a hint will be given.");
+                        console.debug("Continue guessing until the right number is guessed.");
+                        console.debug("To quit, simply type 'quit'");
+                        inout.close();
+                        console.debug("\nNew secret token generated.");
+                        startAgain();
+                        //if the correct number is guessed   
                     }
                     else if (userInput.trim() == secretNum) {
                         //asks user to play again
                         inout.question("Got it. Play again (y/n)? ", function (again) {
+                            //the user enters no for play again, say bye and close the program
                             if (again.trim() === "n") {
                                 console.debug("\n\nBye!");
                                 inout.close();
                             }
+                            //the user enters yes for play again, close inout, tell user a new number is the secret number, call helper function
                             if (again.trim() === "y") {
                                 inout.close();
                                 console.debug("\nNew secret token generated.");
                                 startAgain();
                             }
+                            //if yes or no is not entered then default to no
                             if (again.trim() != "y" && again.trim() != "n") {
                                 console.debug("Only can enter y or n. Default n.");
                                 inout.close();
                             }
                         });
+                        //if the number guessed is less than the secret number give a hint 
                     }
                     else if (userInput.trim() < secretNum) {
                         console.debug("Too low, try again!");
                         process.stdout.write("Your guess: ");
+                        //if the number guessed is greater than the secret number give a hint
                     }
                     else if (userInput.trim() > secretNum) {
                         console.debug("Too high, try again!");
                         process.stdout.write("Your guess: ");
+                        //user did not enter a number between 1 and 100. This includes anything that is not a digit
+                        //create new secret token and start again
                     }
                     else {
                         console.debug('Must be a number between 1 and 100.');
@@ -127,12 +146,17 @@ function startHere(val) {
         });
     });
 }
+//helper function that starts the game again
 function startAgain() {
     startHere(randomize(0, 100));
 }
+//function that gets a randomized secret number
 function randomize(min, max) {
+    //x will be the randomized secret number
     var x;
+    //Creates a whole number between min and max 
     x = Math.floor(Math.random() * (max - min + 1) + min);
     return x;
 }
+//start the program
 startHere(randomize(0, 100));

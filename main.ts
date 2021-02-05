@@ -22,7 +22,17 @@ async function startHere (val: number) {
         if (userInput.trim() === "quit"){
             inout.close();
 
-          //if the correct number is guessed    
+          //if the user asks for help, tell them rules of game. Then restart the game
+        } else if(userInput.trim() == 'help') {
+            console.debug("\nThis game randomly generates a secret number 1-100. You must enter your guess when asked.");
+            console.debug("If the guessed number is too high or too low, then a hint will be given.");
+            console.debug("Continue guessing until the right number is guessed.");
+            console.debug("To quit, simply type 'quit'");
+            inout.close();
+            console.debug("\nNew secret token generated.");
+            startAgain();
+
+            //if the correct number is guessed   
         } else if(userInput.trim() == secretNum) {
                
             //asks user to play again
